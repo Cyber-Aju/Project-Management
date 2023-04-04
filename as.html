@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Management Tool</title>
+    <link rel="stylesheet" href="style1.css" />
+  </head>
+  <body>
+      <header>
+        <h1>Project Management Tool</h1>
+
+      </header>
+
+
+    <main>
+      <section id="tasks">
+        <h2>Tasks</h2>
+        <ul id="task-list"></ul>
+
+        <h3 id="task">  Add Task</h3>
+        <form id="add-task-form">
+          <label for="name-input">Name:</label>
+          <input type="text" id="name-input" required />
+
+          <label for="description-input">Description:</label>
+          <textarea id="description-input" required></textarea>
+
+          <label for="assigned-to-input">Assigned To:</label>
+          <select id="assigned-to-input" required>
+            <option value="">Choose a user</option>
+            <option value="Manager">Manager</option>
+            <option value="Junior Developer">Junior Developer</option>
+            <option value="Senior Developer">Senior Developer</option>
+          </select>
+
+          <label for="status-input">Status:</label>
+          <select id="status-input" required>
+            <option value="">Choose a status</option>
+            <option value="Not Started">Not Started</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+
+          <button type="submit" id="add-task-button">Add Task</button>
+        </form>
+      </section>
+
+      <section id="users">
+        <h2>Users</h2>
+        <ul id="user-list"></ul>
+      </section>
+
+
+
+      <section id="users">
+        <h2>Users</h2>
+        <ul id="user-list"></ul>
+      </section>
+      
+      <section id="messages">
+        <h2>Send Message</h2>
+        <form id="message-form">
+          <label for="recipient-input">Recipient:</label>
+          <select id="recipient-input" required>
+            <option value="">Choose a user</option>
+            <option value="Manager">Manager</option>
+            <option value="Junior Developer">Junior Developer</option>
+            <option value="Senior Developer">Senior Developer</option>
+          </select>
+      
+          <label for="message-input">Message:</label>
+          <textarea id="message-input" required></textarea>
+      
+          <button type="submit" id="send-message-button">Send Message</button>
+        </form>
+      </section>
+      
+
+
+
+    </main>
+
+    <footer>
+      <p>&copy; 2023 Project Management Tool</p>
+    </footer>
+
+    <script src="script1.js"></script>
+
+
+
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyDX63oT5zCOF08RGLuV9Nbwr04H-NJCtGY",
+        authDomain: "project-management-tool-e616b.firebaseapp.com",
+        projectId: "project-management-tool-e616b",
+        storageBucket: "project-management-tool-e616b.appspot.com",
+        messagingSenderId: "493892489246",
+        appId: "1:493892489246:web:b59e22eb31be48606a5e0f",
+        measurementId: "G-BCY525W5FB"
+      };
+    
+    // Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app);
+
+// Add code for sending messages to users
+const messageForm = document.querySelector('#message-form');
+messageForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const messageInput = messageForm['message-input'];
+  const message = messageInput.value;
+
+  const user = firebase.auth().currentUser;
+  const sender = user.email;
+
+  const recipientInput = messageForm['recipient-input'];
+  const recipient = recipientInput.value;
+
+  db.collection('messages').add({
+    sender: sender,
+    recipient: recipient,
+    message: message,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(() => {
+    messageForm.reset();
+  }).catch((error) => {
+    console.log(error.message);
+  });
+});
+
+    </script>
+    
+    <script src="app.s"></script>
+    
+  </body>
+</html>
